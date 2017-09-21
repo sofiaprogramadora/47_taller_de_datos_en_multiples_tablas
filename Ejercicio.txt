@@ -1,0 +1,69 @@
+Titulo: Taller de SQL en múltiples tablas
+
+
+
+
+Preparacion:
+	CREATE DATABASE database_SQL_new;
+	\c database_sql_new
+
+N1. Crear la tabla equipos y la tabla jugadores, y la table intermedia
+
+CREATE TABLE equipos(
+id serial primary key,
+name varchar(40)
+);
+
+
+CREATE TABLE jugadores(
+id serial primary key,
+name varchar(40)
+);
+
+
+CREATE TABLE tabla_intermedia(
+	id serial primary key,
+	jugadores integer references jugadores(id),
+	equipo integer references equipos(id)
+);
+
+N2. En la tabla intermedia crear las claves foráneas
+
+Al ejecutar este codigo (references)
+
+CREATE TABLE tabla_intermedia(
+	id serial primary key,
+	jugadores integer references jugadores(id),
+	equipo integer references equipos(id)
+);
+
+se crean las clave foráneas
+
+N3. Ingresar 5 jugadores, 5 equipos y 7 relaciones (un jugador puede jugar en más de un equipo
+
+
+Jugadores:
+
+INSERT INTO jugadores(name) SELECT 'Alexis';
+INSERT INTO jugadores(name) SELECT 'Arturo';
+INSERT INTO jugadores(name) SELECT 'Pitbull';
+INSERT INTO jugadores(name) SELECT 'Guillermo';
+INSERT INTO jugadores(name) SELECT 'Jens';
+
+Equipos:
+
+INSERT INTO equipos(name) SELECT 'Winners';
+INSERT INTO equipos(name) SELECT 'Losers';
+INSERT INTO equipos(name) SELECT 'Tigers';
+INSERT INTO equipos(name) SELECT 'Cheetas';
+INSERT INTO equipos(name) SELECT 'Bulldogs';
+
+
+
+N4. Obtener la cantidad de jugadores por equipo
+
+SELECT COUNT(*) FROM jugadores;
+
+N5. Obtener todos los nombres de equipos sin jugadores
+
+SELECT * FROM equipos;
