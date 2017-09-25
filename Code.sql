@@ -1,13 +1,9 @@
-Titulo: Taller de SQL en múltiples tablas
 
 
 
+CREATE DATABASE database_SQL_new;
+\c database_sql_new
 
-Preparacion:
-	CREATE DATABASE database_SQL_new;
-	\c database_sql_new
-
-N1. Crear la tabla equipos y la tabla jugadores, y la table intermedia
 
 CREATE TABLE equipos(
 id serial primary key,
@@ -27,22 +23,6 @@ CREATE TABLE tabla_intermedia(
 	equipo integer references equipos(id)
 );
 
-N2. En la tabla intermedia crear las claves foráneas
-
-Al ejecutar este codigo (references)
-
-CREATE TABLE tabla_intermedia(
-	id serial primary key,
-	jugadores integer references jugadores(id),
-	equipo integer references equipos(id)
-);
-
-se crean las clave foráneas
-
-N3. Ingresar 5 jugadores, 5 equipos y 7 relaciones (un jugador puede jugar en más de un equipo
-
-
-Jugadores:
 
 INSERT INTO jugadores(name) SELECT 'Alexis';
 INSERT INTO jugadores(name) SELECT 'Arturo';
@@ -50,7 +30,6 @@ INSERT INTO jugadores(name) SELECT 'Pitbull';
 INSERT INTO jugadores(name) SELECT 'Guillermo';
 INSERT INTO jugadores(name) SELECT 'Jens';
 
-Equipos:
 
 INSERT INTO equipos(name) SELECT 'Winners';
 INSERT INTO equipos(name) SELECT 'Losers';
@@ -59,19 +38,15 @@ INSERT INTO equipos(name) SELECT 'Cheetas';
 INSERT INTO equipos(name) SELECT 'Bulldogs';
 
 
-
-N4. Obtener la cantidad de jugadores por equipo
-
-SELECT COUNT(jugadores.id) AS count_jugadores, equipos.name AS name_equipo FROM jugadores
+SELECT COUNT(jugadores.id) AS jugadores, equipos.name AS equipo FROM jugadores
 INNER JOIN tabla_intermedia ON tabla_intermedia.jugadores = jugadores.id
 INNER JOIN equipos ON equipos.id = tabla_intermedia.equipo
-GROUP BY equipos.name;
+GROUP BY equipos.name, jugadores.id;
 
-N5. Obtener todos los nombres de equipos sin jugadores
 
 SELECT equipos.name
 FROM equipos
-where equipos.id
+where equipos.id 
 NOT in(
 	SELECT distinct(tabla_intermedia.equipo)
 	FROM tabla_intermedia
